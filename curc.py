@@ -137,66 +137,70 @@ class Aplicacion:
         self.cursor.execute(f"select * from Login WHERE Correo_Electronico='{self.var1.get()}'")
         va=self.cursor.fetchone()
         
-        if va==None:
-            ca.showerror("Eror","Ese usuario existe") 
-        else:
-                # Limpia el login al acceder
-                self.var1.set("")
-                self.var2.set("")
+        if va!=None and self.var2.get()==("Maria"):
+            # Limpia el login al acceder
+            self.var1.set("")
+            self.var2.set("")
                 
-                #Desaparecer la ventana principal
-                self.ven.geometry("0x0")
+            #Desaparecer la ventana principal
+            self.ven.geometry("0x0")
 
-                # Accede a la información general de la bd
-                self.venInfo = Toplevel(self.ven)
-                self.venInfo.geometry("480x450")
-                self.venInfo.title("Información General")
-                self.venInfo.config(bg="lightblue")
-                self.venInfo.iconbitmap("UNAH-version-horizontal.ico")
+            # Accede a la información general de la bd
+            self.venInfo = Toplevel(self.ven)
+            self.venInfo.geometry("480x450")
+            self.venInfo.title("Información General")
+            self.venInfo.config(bg="lightblue")
+            self.venInfo.iconbitmap("UNAH-version-horizontal.ico")
 
-                # Cargar y mostrar imagen en la segunda ventana
-                imgInfo = Image.open("UNAH-version-horizontal.png")
-                imgInfodim = imgInfo.resize((100, 60))
-                self.logoInfo = ImageTk.PhotoImage(imgInfodim)  
+            # Cargar y mostrar imagen en la segunda ventana
+            imgInfo = Image.open("UNAH-version-horizontal.png")
+            imgInfodim = imgInfo.resize((100, 60))
+            self.logoInfo = ImageTk.PhotoImage(imgInfodim)  
 
-                self.lblInfo = Label(self.venInfo, image=self.logoInfo, bg="lightblue")
-                self.lblInfo.place(x=180, y=10)
+            self.lblInfo = Label(self.venInfo, image=self.logoInfo, bg="lightblue")
+            self.lblInfo.place(x=180, y=10)
 
-                # lbl info con wraplength
-                self.lbl2Info = Label(
-                self.venInfo,
-                text="El CURC (Centro Universitario Regional del Centro) en Honduras es una institución de educación superior que forma parte de la Universidad Nacional Autónoma de Honduras (UNAH). En este proyecto, desarrollamos una base de datos que permite controlar y gestionar eficientemente el proceso de matrícula de los estudiantes, facilitando el registro, consulta y administración de la información académica de manera ordenada y segura.",
-                bg="lightblue",
-                font=("Times New Roman", 12),
-                justify="center",
-                wraplength=440
-                )
-                self.lbl2Info.place(x=20, y=100)
+            # lbl info con wraplength
+            self.lbl2Info = Label(
+            self.venInfo,
+            text="El CURC (Centro Universitario Regional del Centro) en Honduras es una institución de educación superior que forma parte de la Universidad Nacional Autónoma de Honduras (UNAH). En este proyecto, desarrollamos una base de datos que permite controlar y gestionar eficientemente el proceso de matrícula de los estudiantes, facilitando el registro, consulta y administración de la información académica de manera ordenada y segura.",
+            bg="lightblue",
+            font=("Times New Roman", 12),
+            justify="center",
+            wraplength=440
+            )
+            self.lbl2Info.place(x=20, y=100)
 
                 
-                #menu bar
-                self.menubar = Menu(self.venInfo)
+            #menu bar
+            self.menubar = Menu(self.venInfo)
 
             
-                info_menu = Menu(self.menubar, tearoff=0)
-                info_menu.add_command(label="Misión y Visión", command=self.misionVision)
-                info_menu.add_command(label="Quiénes Somos", command=self.quienes_somos)
-                info_menu.add_command(label="Contáctanos", command=self.contacto)
+            info_menu = Menu(self.menubar, tearoff=0)
+            info_menu.add_command(label="Misión y Visión", command=self.misionVision)
+            info_menu.add_command(label="Quiénes Somos", command=self.quienes_somos)
+            info_menu.add_command(label="Contáctanos", command=self.contacto)
 
-                info_menu2 = Menu(self.menubar, tearoff=0)
-                info_menu2.add_command(label="Alumnos", command=self.alumnos)
-                info_menu2.add_command(label="Maestros", command=self.maestros)
-                info_menu2.add_command(label="Clases", command=self.clases)
-                info_menu2.add_command(label="Seccion", command=self.seccion)
-                info_menu2.add_command(label="Matricula", command=self.matricula)
-
-
-
-                self.menubar.add_cascade(label="Información", menu=info_menu)
-                self.menubar.add_cascade(label="Gestión", menu=info_menu2)
+            info_menu2 = Menu(self.menubar, tearoff=0)
+            info_menu2.add_command(label="Alumnos", command=self.alumnos)
+            info_menu2.add_command(label="Maestros", command=self.maestros)
+            info_menu2.add_command(label="Clases", command=self.clases)
+            info_menu2.add_command(label="Seccion", command=self.seccion)
+            info_menu2.add_command(label="Matricula", command=self.matricula)
 
 
-                self.venInfo.config(menu=self.menubar)
+
+            self.menubar.add_cascade(label="Información", menu=info_menu)
+            self.menubar.add_cascade(label="Gestión", menu=info_menu2)
+
+
+            self.venInfo.config(menu=self.menubar)
+        elif va==None and self.var2.get()!="Maria":
+            ca.showerror("Eror","El correo y la contraseña son incorrecotos.") 
+        elif va!=None and self.var2.get()=="Maria":
+            ca.showerror("Error", "El correo electronico no existe")
+        else:
+            ca.showerror("Error", "La contraseña es incorrecta")
         
 
  
