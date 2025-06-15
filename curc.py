@@ -264,19 +264,85 @@ class Aplicacion:
 
         self.lblqs2=Label(self.qs,text="Nuestros curriculums:",bg="lightblue",font=("Times New Roman", 12))
         self.lblqs2.place(x=10,y=200)
+        
 
+        #ANGEL RODRIGUEZ
         self.lblqs3=Label(self.qs,text="17 Angel Rodriguez:",bg="lightblue",font=("Times New Roman", 12))
         self.lblqs3.place(x=10,y=250)
+        # Botón que abre la nueva ventana con la imagen
+        botonCAngel = Button(self.qs, text="Abrir curriculum", command=self.CAngel,font=("Times New Roman", 12))
+        botonCAngel.place(x=150,y=240)
 
+        
+        #DAVID GARCIA
         self.lblqs3=Label(self.qs,text="23 David Garcia:",bg="lightblue",font=("Times New Roman", 12))
         self.lblqs3.place(x=10,y=280)
+        # Botón que abre la nueva ventana con la imagen
+        botonCAngel = Button(self.qs, text="Abrir curriculum", command=self.CDavid, font=("Times New Roman", 12))
+        botonCAngel.place(x=150,y=280)
 
+
+        #HUGO VARELA
         self.lblqs3=Label(self.qs,text="31 Hugo Varela:",bg="lightblue",font=("Times New Roman", 12))
         self.lblqs3.place(x=10,y=310)
+        # Botón que abre la nueva ventana con la imagen
+        botonCAngel = Button(self.qs, text="Abrir curriculum", command=self.CHugo, font=("Times New Roman", 12))
+        botonCAngel.place(x=150,y=320)
+
 
         #Boton, regresar a pantalla principal
         self.btnqs=Button(self.qs,text="Regresar",height=1,width=10,font=("Times New Roman", 12),command=self.regresarDos)
-        self.btnqs.place(x=170,y=340)
+        self.btnqs.place(x=170,y=360)
+
+    def CAngel(self):
+        
+        self.VenCAngel = Toplevel()
+        self.VenCAngel.title("Curriculum 17 Angel")
+        self.VenCAngel.geometry("600x500")
+        self.VenCAngel.iconbitmap("UNAH-version-horizontal.ico")
+
+      
+        imagen = Image.open("CAngel.jpeg") 
+        imagen = imagen.resize((550, 450))
+        imagen_tk = ImageTk.PhotoImage(imagen)
+
+        
+        etiqueta_nueva = Label(self.VenCAngel, image=imagen_tk)
+        etiqueta_nueva.image = imagen_tk  
+        etiqueta_nueva.pack(pady=20)
+
+    def CDavid(self):
+        self.VenCDavid = Toplevel()
+        self.VenCDavid.title("Curriculum 23 David")
+        self.VenCDavid.geometry("600x500")
+        self.VenCDavid.iconbitmap("UNAH-version-horizontal.ico")
+
+        
+        imagen = Image.open("CDavid.jpeg") 
+        imagen = imagen.resize((550, 450))
+        imagen_tk = ImageTk.PhotoImage(imagen)
+
+        
+        etiqueta_nueva = Label(self.VenCDavid, image=imagen_tk)
+        etiqueta_nueva.image = imagen_tk  
+        etiqueta_nueva.pack(pady=20)
+
+    def CHugo(self):
+       
+        self.VenCHugo = Toplevel()
+        self.VenCHugo.title("Curriculum 31 Hugo")
+        self.VenCHugo.geometry("600x500")
+        self.VenCHugo.iconbitmap("UNAH-version-horizontal.ico")
+
+        
+        imagen = Image.open("CHugo.jpeg") 
+        imagen = imagen.resize((550, 450))
+        imagen_tk = ImageTk.PhotoImage(imagen)
+
+        
+        etiqueta_nueva = Label(self.VenCHugo, image=imagen_tk)
+        etiqueta_nueva.image = imagen_tk  
+        etiqueta_nueva.pack(pady=20)
     
     #Metodo de destruir ventana, Quienes somos
     def regresarDos(self):
