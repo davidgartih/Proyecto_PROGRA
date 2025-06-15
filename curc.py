@@ -6,15 +6,11 @@ from tkinter import ttk
 import sqlite3
 
 class Aplicacion:
-    
     #Conector de la base de datos a tkinter
     def conectorBD(self):
         self.conexion=sqlite3.connect("Matricula(CURC).db")
         self.cursor=self.conexion.cursor()
         try:
-            #CREACION TABLA LOGIN
-            self.cursor.execute("""create table Login
-                                (Correo_Electronico text);""")
             #CREACION TABLA ESTUDIANTES
             self.cursor.execute("""create table Estudiantes
                            (ID_Alumno integer primary key,
@@ -55,15 +51,6 @@ class Aplicacion:
         except sqlite3.OperationalError:
             print("")
 
-    #CORREOS ELECTRONICOS DE USUARIOS EN EL SISTEMA
-        self.cursor.execute("""insert into Login
-                            (Correo_Electronico)values
-                            ('Angel Rodriguez'),
-                            ('David Garcia'),
-                            ('Hugo Varela'),
-                            ('Marco Tulio')
-                            """)
-        
         
     #Ventana principal
     def __init__(self):
@@ -71,8 +58,6 @@ class Aplicacion:
         self.ven.geometry("430x340")
         self.ven.title("Login")
         self.ven.config(bg="lightblue")
-        self.ven.iconbitmap("UNAH-version-horizontal.ico")  # solo .ico en Windows
-
         #Imagen
         img = Image.open("UNAH-version-horizontal.png")
         imgdim=img.resize((100,60))
@@ -131,35 +116,39 @@ class Aplicacion:
             self.txt2.config(show="")
         else:
             self.txt2.config(show="*")
+            
+            
     def acceder(self):
-        #Validar que el usuario existe
-        self.conectorBD()
-        self.cursor.execute(f"select * from Login WHERE Correo_Electronico='{self.var1.get()}'")
-        va=self.cursor.fetchone()
-        
-        if va!=None and self.var2.get()==("Maria"):
+        va=self.var1.get()
+        va2=self.var2.get()
+        #Validar que el correo y la contraseña sena las correctas
+        if (va=="hugovarela@gmail.com" and va2=="Maria") or (va=="angelrodri@gmail.com" and va2=="Maria") or (va=="davidgarcia@gmail.com" and va2=="Maria") or (va=="marcomadrid@gmail.com" and va2=="Maria"):
             # Limpia el login al acceder
             self.var1.set("")
             self.var2.set("")
                 
+            # Limpia el login al acceder
+            
+            self.var1.set("")
+            self.var2.set("")
+            
             #Desaparecer la ventana principal
             self.ven.geometry("0x0")
-
+    
             # Accede a la información general de la bd
             self.venInfo = Toplevel(self.ven)
             self.venInfo.geometry("480x450")
             self.venInfo.title("Información General")
             self.venInfo.config(bg="lightblue")
-            self.venInfo.iconbitmap("UNAH-version-horizontal.ico")
-
+    
             # Cargar y mostrar imagen en la segunda ventana
             imgInfo = Image.open("UNAH-version-horizontal.png")
             imgInfodim = imgInfo.resize((100, 60))
             self.logoInfo = ImageTk.PhotoImage(imgInfodim)  
-
+    
             self.lblInfo = Label(self.venInfo, image=self.logoInfo, bg="lightblue")
             self.lblInfo.place(x=180, y=10)
-
+    
             # lbl info con wraplength
             self.lbl2Info = Label(
             self.venInfo,
@@ -170,47 +159,47 @@ class Aplicacion:
             wraplength=440
             )
             self.lbl2Info.place(x=20, y=100)
-
-                
+    
+            
             #menu bar
             self.menubar = Menu(self.venInfo)
-
-            
+    
+           
             info_menu = Menu(self.menubar, tearoff=0)
             info_menu.add_command(label="Misión y Visión", command=self.misionVision)
             info_menu.add_command(label="Quiénes Somos", command=self.quienes_somos)
             info_menu.add_command(label="Contáctanos", command=self.contacto)
-
+    
             info_menu2 = Menu(self.menubar, tearoff=0)
             info_menu2.add_command(label="Alumnos", command=self.alumnos)
             info_menu2.add_command(label="Maestros", command=self.maestros)
             info_menu2.add_command(label="Clases", command=self.clases)
             info_menu2.add_command(label="Seccion", command=self.seccion)
             info_menu2.add_command(label="Matricula", command=self.matricula)
-
-
-
+    
+    
+    
             self.menubar.add_cascade(label="Información", menu=info_menu)
             self.menubar.add_cascade(label="Gestión", menu=info_menu2)
-
-
+    
+    
             self.venInfo.config(menu=self.menubar)
-        elif va==None and self.var2.get()!="Maria":
+            
+        #Variables si los datos son incorrectos    
+        elif (va!="hugovarela@gmail.com" and va2!="Maria") or (va!="angelrodri@gmail.com" and va2!="Maria") or (va!="davidgarcia@gmail.com" and va2!="Maria") or (va!="marcomadrid@gmail.com" and va2!="Maria"):
             ca.showerror("Eror","El correo y la contraseña son incorrecotos.") 
-        elif va!=None and self.var2.get()=="Maria":
+        elif (va!="hugovarela@gmail.com" and va2=="Maria") or (va!="angelrodri@gmail.com" and va2=="Maria") or (va!="davidgarcia@gmail.com" and va2=="Maria") or (va!="marcomadrid@gmail.com" and va2=="Maria"):
             ca.showerror("Error", "El correo electronico no existe")
-        else:
+        elif va2!="Maria":
             ca.showerror("Error", "La contraseña es incorrecta")
-        
-
- 
+            
+            
     #Ventana Mision y Vision
     def misionVision(self):
         self.Mv = Toplevel(self.venInfo)
         self.Mv.geometry("350x380")
         self.Mv.title("Misión y Visión")
         self.Mv.config(bg="lightblue")
-        self.Mv.iconbitmap("UNAH-version-horizontal.ico")
 
         #Vision
         self.lblmv = Label(self.Mv, text="Visión", font=("Times New Roman", 14, "bold"), bg="lightblue")
@@ -254,7 +243,6 @@ class Aplicacion:
         self.qs.geometry("450x450")
         self.qs.title("Quienes Somos")
         self.qs.config(bg="lightblue")
-        self.qs.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblqs = Label(
         self.qs,
@@ -292,7 +280,6 @@ class Aplicacion:
         self.ctc.geometry("450x320")
         self.ctc.title("Contáctanos")
         self.ctc.config(bg="lightblue")
-        self.ctc.iconbitmap("UNAH-version-horizontal.ico")
 
     # Título subrayado y centrado
         self.lblctc = Label(
@@ -344,7 +331,6 @@ class Aplicacion:
         self.alum.geometry("450x320")
         self.alum.title("Alumnos")
         self.alum.config(bg="lightblue")
-        self.alum.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblalum = Label(
         self.alum,
@@ -367,15 +353,15 @@ class Aplicacion:
         
         self.btnalum3.place(x=170,y=180)
         
-        
+        #Desaparecer la ventana anterior
+        self.venInfo.geometry("0x0")
 
     #Metodos de consultas-Alumnos
     def ingresarA(self):
         self.VenIngresarA = Toplevel(self.venInfo)
-        self.VenIngresarA.geometry("800x320+300+300")
+        self.VenIngresarA.geometry("830x320+300+300")
         self.VenIngresarA.title("Tabla Estudiantes_Ingresar Datos")
         self.VenIngresarA.config(bg="lightblue")
-        self.VenIngresarA.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para ID
         self.lblIngresarIDA=Label(self.VenIngresarA, text="ID del estudiante:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -430,7 +416,7 @@ class Aplicacion:
         self.treeIngresarA.column("#1", width=75, anchor=CENTER)
         self.treeIngresarA.column("#2", width=75, anchor=CENTER)
         self.treeIngresarA.column("#3", width=70, anchor=CENTER)
-        self.treeIngresarA.column("#4", width=90, anchor=CENTER)
+        self.treeIngresarA.column("#4", width=130, anchor=CENTER)
         
         #Cargar los datos en el reporte
         self.cargar_datos_alumnos()
@@ -485,7 +471,6 @@ class Aplicacion:
         self.VenActualizarA.geometry("450x320+300+300")
         self.VenActualizarA.title("Tabla Estudiantes_Actualizar Datos")
         self.VenActualizarA.config(bg="lightblue")
-        self.VenActualizarA.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para ID alumno
         self.lblActualizarNombreA=Label(self.VenActualizarA, text="ID de alumno:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -538,7 +523,6 @@ class Aplicacion:
         self.VenEliminarA.geometry("350x200+300+300")
         self.VenEliminarA.title("Tabla Estudiantes_Eliminar Datos")
         self.VenEliminarA.config(bg="lightblue")
-        self.VenEliminarA.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para Id estudiante
         self.lblEliminarIDA=Label(self.VenEliminarA, text="Id del estudiante:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -574,7 +558,7 @@ class Aplicacion:
             ca.showinfo("Eliminado", "Estudiante eliminado correctamente")
             self.cargar_datos_alumnos()
         except Exception as e:
-            ca.showerror("Error", f"Ocurrió un error: {e}")
+            print("")
 
 
     #Ventana,Gestion-Maestros
@@ -583,7 +567,6 @@ class Aplicacion:
         self.maes.geometry("450x320")
         self.maes.title("Maestros")
         self.maes.config(bg="lightblue")
-        self.maes.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblmaes = Label(
         self.maes,
@@ -612,7 +595,6 @@ class Aplicacion:
         self.VenIngresarM.geometry("800x320+300+300")
         self.VenIngresarM.title("Tabla Maestros_Ingresar Datos")
         self.VenIngresarM.config(bg="lightblue")
-        self.VenIngresarM.iconbitmap("UNAH-version-horizontal.ico")
         
         #Entry y Label para ID
         self.lblIngresarIDM=Label(self.VenIngresarM, text="ID del estudiante:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -721,7 +703,6 @@ class Aplicacion:
         self.VenActualizarM.geometry("420x220+300+300")
         self.VenActualizarM.title("Tabla Clases_Actualizar Datos")
         self.VenActualizarM.config(bg="lightblue")
-        self.VenActualizarM.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para Nombre
         self.lblActualizarNombreM=Label(self.VenActualizarM, text="ID de maestro:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -766,7 +747,6 @@ class Aplicacion:
         self.VenEliminarM.geometry("350x200+300+300")
         self.VenEliminarM.title("Tabla Maestros_Eliminar Datos")
         self.VenEliminarM.config(bg="lightblue")
-        self.VenEliminarM.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para Id maestro
         self.lblEliminarIDM=Label(self.VenEliminarM, text="Id del maestro:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -802,7 +782,6 @@ class Aplicacion:
         self.clas.geometry("450x320")
         self.clas.title("Clases")
         self.clas.config(bg="lightblue")
-        self.clas.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblclas = Label(
         self.clas,
@@ -824,7 +803,8 @@ class Aplicacion:
         self.btnclas=Button(self.clas,text="Eliminar",height=1,width=10,font=("Times New Roman", 12),command=self.eliminarC)
         self.btnclas.place(x=170,y=180)
         
-        
+        #Ocultar la ventana anterior
+        self.venInfo.geometry("0x0")
     
     #Cargar datos al treeview
     def cargar_datos_clase(self):
@@ -845,7 +825,6 @@ class Aplicacion:
         self.VenIngresarC.geometry("800x220+300+300")
         self.VenIngresarC.title("Tabla Clases_Ingresar Datos")
         self.VenIngresarC.config(bg="lightblue")
-        self.VenIngresarC.iconbitmap("UNAH-version-horizontal.ico")
         
         #Entry y Label para ID de clase
         self.lblIngresarIDC=Label(self.VenIngresarC, text="ID de la clase:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -910,7 +889,6 @@ class Aplicacion:
         self.VenActualizarC.geometry("420x220+300+300")
         self.VenActualizarC.title("Tabla Clases_Actualizar Datos")
         self.VenActualizarC.config(bg="lightblue")
-        self.VenActualizarC.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para Id clase
         self.lblActualizarNombreC=Label(self.VenActualizarC, text="ID de la clase:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -950,7 +928,6 @@ class Aplicacion:
         self.VenEliminarC.geometry("350x200+300+300")
         self.VenEliminarC.title("Tabla Clases_Eliminar Datos")
         self.VenEliminarC.config(bg="lightblue")
-        self.VenEliminarC.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para id clase
         self.lblEliminarIDC=Label(self.VenEliminarC, text="Id de la clase:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -994,7 +971,6 @@ class Aplicacion:
         self.sec.geometry("450x320")
         self.sec.title("Secciones")
         self.sec.config(bg="lightblue")
-        self.sec.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblsec = Label(
         self.sec,
@@ -1022,7 +998,6 @@ class Aplicacion:
         self.VenIngresarS.geometry("800x320+300+300")
         self.VenIngresarS.title("Tabla Secciones_Ingresar Datos")
         self.VenIngresarS.config(bg="lightblue")
-        self.VenIngresarS.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para ID Seccion
         self.lblIngresarNombreS=Label(self.VenIngresarS, text="ID de la sección:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1128,7 +1103,6 @@ class Aplicacion:
         self.VenActualizarS.geometry("420x220+300+300")
         self.VenActualizarS.title("Tabla Secciones_Actualizar Datos")
         self.VenActualizarS.config(bg="lightblue")
-        self.VenActualizarS.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para id sección
         self.lblActualizarNombreS=Label(self.VenActualizarS, text="ID de la seccion:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1179,7 +1153,6 @@ class Aplicacion:
         self.VenEliminarS.geometry("350x200+300+300")
         self.VenEliminarS.title("Tabla Secciones_Eliminar Datos")
         self.VenEliminarS.config(bg="lightblue")
-        self.VenEliminarS.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label ID Clase
         self.lblEliminarIDS=Label(self.VenEliminarS, text="Id de la clase:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1221,7 +1194,6 @@ class Aplicacion:
         self.mtc.geometry("450x320")
         self.mtc.title("Matricula")
         self.mtc.config(bg="lightblue")
-        self.mtc.iconbitmap("UNAH-version-horizontal.ico")
 
         self.lblmtc = Label(
         self.mtc,
@@ -1267,7 +1239,6 @@ class Aplicacion:
         self.VenIngresarMt.geometry("750x250+300+300")
         self.VenIngresarMt.title("Tabla Matricula_Ingresar Datos")
         self.VenIngresarMt.config(bg="lightblue")
-        self.VenIngresarMt.iconbitmap("UNAH-version-horizontal.ico")
         
         #Entry y Label para ID Seccion
         self.lblIngresarIDMT=Label(self.VenIngresarMt, text="ID de la matricula:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1340,7 +1311,6 @@ class Aplicacion:
         self.VenActualizarMt.geometry("420x220+300+300")
         self.VenActualizarMt.title("Tabla Matricula_Actualizar Datos")
         self.VenActualizarMt.config(bg="lightblue")
-        self.VenActualizarMt.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label para ID Matricula
         self.lblActualizarIDMatricula=Label(self.VenActualizarMt, text="ID de la matricula:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1396,7 +1366,6 @@ class Aplicacion:
         self.VenEliminarMt.geometry("350x200+300+300")
         self.VenEliminarMt.title("Tabla Secciones_Eliminar Datos")
         self.VenEliminarMt.config(bg="lightblue")
-        self.VenEliminarMt.iconbitmap("UNAH-version-horizontal.ico")
 
         #Entry y Label ID Matricula
         self.lblEliminarIDMt=Label(self.VenEliminarMt, text="Id de la matricula:", bg="lightblue", font=("Time New Roman", 12)).place(x=40,y=60)
@@ -1436,5 +1405,6 @@ class Aplicacion:
                     ca.showerror("Error", f"Ocurrió un error al eliminar: {e}")
 app = Aplicacion()
 
+        
         
         
