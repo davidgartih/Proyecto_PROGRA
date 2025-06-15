@@ -123,7 +123,7 @@ class Aplicacion:
     def acceder(self):
         va=self.var1.get()
         va2=self.var2.get()
-        listacorreos=["hugovarela@gmail.com","angelrodri@gmail.com","davidgarcia@gmail.com","marcomadrid@gmail.com"]
+        listacorreos=["hugozuniga@gmail.com","angelvelasquez@gmail.com","davidgarcia@gmail.com","marcomadrid@gmail.com"]
         #Validar que el correo y la contraseña sena las correctas
         if va in listacorreos and self.var2.get()=="Maria":
             # Limpia el login al acceder
